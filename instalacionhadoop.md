@@ -1,4 +1,4 @@
-# Instalacción cluster de 3 nodos con Hadoop 3.3.2 en Ubuntu 20.04.4 LTS
+# Instalacción cluster de 2 nodos con Hadoop 3.3.2 en Ubuntu 20.04.4 LTS
 
 ## Prerrequisitos
 
@@ -304,8 +304,74 @@ Al correr la línea, mostrará dos datos: el código de *Jps* y el código del *
 
 #### Acceder a la interfaz de usuario web de *HDFS*
 
-Ahora podemos acceder a la interfaz de usuario web de *HDFS* navegando hasta el puerto 9870 de su servidor *maestro* de Hadoop. En él se puede verificar el estado de la capacidad configurada y otros items importantes.
+Ahora podemos acceder a la interfaz de usuario web de *HDFS* navegando hasta el puerto 9870 de su servidor *maestro* de Hadoop. En él se puede verificar el estado de la capacidad configurada y otros items importantes. A este se accede entrando a su navegador de internet desde el equipo **maestro** a la dirección **https//10.0.2.8:9870**. En este caso, antes de los dos puntos va la dirección ip del equipo **maestro** o el *hostname* que le haya puesto.
 
 
 ![HDFS](/Imagenes/3.png)
+
+
+
+#### Iniciar **Yarn** 
+
+Ahora que **HDFS** se está ejecutando, estamos listos para iniciar el programador de **Yarn**. **Hadoop**, por sí solo, puede programar cualquier trabajo, por lo que necesitamos ejecutar **Yarn** para poder programar trabajos en nuestro *clúster* de **Hadoop**. Para ello, debemos correr en nuestro **maestro** las siguientes líneas:
+
+```shell
+export HADOOP_HOME="/usr/local/hadoop"
+export HADOOP_COMMON_HOME=$HADOOP_HOME
+export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
+export HADOOP_HDFS_HOME=$HADOOP_HOME
+export HADOOP_MAPRED_HOME=$HADOOP_HOME
+export HADOOP_YARN_HOME=$HADOOP_HOME
+```
+
+Luego, en cada uno de sus esclavos de hadoop (esclavo1 y esclavo2) desde el *Usuario hadoop*, debemos editar **yarn-site.xml**. Si estamos en el *Súper usiario* corremos los siguientes comandos para salir de él y entrar en el *Usuario hadoop*:
+
+```shell
+exit
+su hadoop
+```
+Nos pedirá la clave y ya estaremos en el *Usuario hadoop*. Para configurar el archivo , corremos la siguiente línea:
+
+```shell
+cd
+nano /usr/local/hadoop/etc/hadoop/yarn-site.xml
+```
+
+En el archivo, editaremos las líneas de configuración con lo siguiente:
+
+```shell
+<configuration>
+        <property>
+                <name>yarn.resourcemanager.hostname</name>
+                <value>maestro</value>
+        </property>
+</configuration>
+```
+
+Guardamos con *CTRL + O*, luego *Enter* y cerramos con *CRTL + X*.
+
+Ejecutamos este comando desde la *terminal* del equipo **maestro** para iniciar **Yarn**:
+
+```shell
+start-yarn.sh
+```
+
+Al finalizar, podemos comprobar que se inició correctamente ejecutando este comando:
+
+```shell
+yarn node -list
+```
+
+Obteniendo la siguiente salida con la información de los nodos.
+
+![nodos](/Imagenes/4.png)
+
+#### Interfaz web de Hadoop
+
+Puede ver la interfaz de usuario web de Hadoop, en el navegador de internet del equipo **maestro**, yendo a esta URL: **maestro:8088/cluster**. En ella puede ver el estado de su *cluster*.
+
+## Ejemplos de uso del *cluster*
+
+
+
 
