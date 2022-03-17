@@ -233,18 +233,18 @@ Al abrir, nos dirigimos a la parte de configuración y ponemos el siguiente cód
 
 ```shell
 <configuration>
-  <property>
-    <name>dfs.namenode.name.dir</name>
-    <value>/usr/local/hadoop/data/nameNode</value>
-  </property>
-  <property>
-    <name>dfs.datanode.data.dir</name>
-    <value>/usr/local/hadoop/data/dataNode</value>
-  </property>
-  <property>
-    <name>dfs.replication</name>
-    <value>2</value>
-  </property>
+        <property>
+                <name>dfs.namenode.name.dir</name>
+                <value>/usr/local/hadoop/data/nameNode</value>
+        </property>
+        <property>
+                <name>dfs.datanode.data.dir</name>
+                <value>/usr/local/hadoop/data/dataNode</value>
+        </property>
+        <property>
+                <name>dfs.replication</name>
+                <value>2</value>
+        </property>
 </configuration>
 ```
 
@@ -308,3 +308,4 @@ Ahora podemos acceder a la interfaz de usuario web de *HDFS* navegando hasta el 
 
 
 ![HDFS](/Imagenes/3.png)
+
